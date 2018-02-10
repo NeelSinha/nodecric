@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="./style.css">
+    <title>Simple login</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">  </script>
+    <script>
+      $(document).ready(function(){
+        var user,pass;
+        $("#submit").click(function(){
+          team=$("#team").val();
+          $.post("http://localhost:3000/login", {team : team} , function(data){
+            var s =  ' <tr>                 <th allign="left">Name</th>                <th> Role </th>                <th> Country </th><th> Sold Price </th>              </tr>';
+
+            //var d = JSON.stringify(data);
+            //var obj = JSON.parse(d);
+          for (i = 0; data[i]; i++)
+          {
+            s = s  + '<tr> <td>' +JSON.stringify(data[i].First_Name).replace(/^\"+|\"+$/g, '')
+            + ' ' + JSON.stringify(data[i].Surname).replace(/^\"+|\"+$/g, '')
+            + '</td> '   + '<td>' +JSON.stringify(data[i].Specialism).replace(/^\"+|\"+$/g, '')
+            + '</td> ' + ' <td>' +JSON.stringify(data[i].Country).replace(/^\"+|\"+$/g, '')
+            + ' </td> <td> '+JSON.stringify(data[i].Sold_Price).replace(/^\"+|\"+$/g, '') + '</td> </tr> ' ;
+
+}
+             s = s + '</table>' ;
+             console.log(s);
+            document.getElementById("demo").innerHTML = s ;
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1> Squad </h1>
+    <select name="team" id ="team" form="team">
+  <option value="CSK">Chennai Super Kings</option>
+  <option value="RCB">Royal Challengers Bangalore</option>
+  <option value="MI">Mumbai Indians</option>
+  <option value="RR">Rajasthan Royals</option>
+  <option value="KKR">Kolkata Night Riders</option>
+  <option value="KXIP">Kings XI Punjab </option>
+  <option value="SRH">Sunrisers Hyderabad </option>
+  <option value="DD">Delhi Daredevils</option>
+</select>
+    <input type="button" id="submit" value="Submit">
+    <br>
+     Team : <br> <table allign="right" id="demo">
+
+</table>
+
+  <h1> Compare Batsmen </h1>
+  <select name="teamb" id ="teamb" >
+<option value="BATSMAN">Batting Options</option>
+<option value="BOWLER">Bowling Options </option>
+<option value="ALL-ROUNDER">Allrounders </option>
+<option value="WICKETKEEPER">Wicketkeepers </option>
+</select>
+<input type="button" id="submitb" value="Submit">
+<br>
+  <br>
+   Team : <br> <table  id="demo1" >
+<tr>
+</tr> </table>
+<script>
+  $(document).ready(function(){
+    var opt ;
+      $("#submitb").click(function(){
+      opt=$("#teamb").val();
+      $.post("http://localhost:3000/option", {opt : opt} , function(data){
+              document.getElementById("demo1").innerHTML += data ;
+            });
+  });
+});
+</script>
+  </body>
+</html>
